@@ -1,5 +1,6 @@
 package com.budget.management.category.entity;
 
+import com.budget.management.category.dto.AddCategoryRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,4 +19,9 @@ public class Category {
 
     @Column(nullable = false)
     private String name;
+
+    @Builder
+    public Category(AddCategoryRequest request) {
+        this.name = request.getName();
+    }
 }
