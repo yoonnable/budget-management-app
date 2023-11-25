@@ -1,5 +1,6 @@
 package com.budget.management.budget.entity;
 
+import com.budget.management.budget.dto.AddBudgetRequest;
 import com.budget.management.category.entity.Category;
 import com.budget.management.member.entity.Member;
 import jakarta.persistence.*;
@@ -31,5 +32,19 @@ public class Budget {
 
     @Column(nullable = false)
     private int period;
+
+    @Builder
+    public Budget(AddBudgetRequest budgetRequest, Member member, Category category) {
+        this.member = member;
+        this.category = category;
+        this.money = budgetRequest.getMoney();
+        this.period = budgetRequest.getPeriod();
+    }
+
+    public void update(Category category, int money, int period) {
+        this.category = category;
+        this.money = money;
+        this.period = period;
+    }
 
 }
