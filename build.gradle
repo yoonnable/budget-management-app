@@ -23,6 +23,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.projectlombok:lombok:1.18.22'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Bcrypt 라이브러리
+    implementation group: 'at.favre.lib', name: 'bcrypt', version: '0.10.2'
 }
 
 test {

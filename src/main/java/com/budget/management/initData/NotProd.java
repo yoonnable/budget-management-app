@@ -2,6 +2,9 @@ package com.budget.management.initData;
 
 import com.budget.management.category.entity.Category;
 import com.budget.management.category.repository.CategoryRepository;
+import com.budget.management.member.entity.Member;
+import com.budget.management.member.repository.MemberRepository;
+import com.budget.management.util.Ut;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +17,30 @@ import java.util.List;
 @Profile({"dev", "test"})
 public class NotProd {
     @Bean
-    CommandLineRunner initData(CategoryRepository categoryRepository) {
+    CommandLineRunner initData(MemberRepository memberRepository, CategoryRepository categoryRepository) {
 
+        String password = Ut.encrypt.encryptPW("1234");
         return args -> {
+            // Member 생성
+            List<Member> members = new ArrayList<>();
+            Member m1 = Member.builder()
+                    .name("user1")
+                    .password(password)
+                    .build();
+
+            Member m2 = Member.builder()
+                    .name("user2")
+                    .password(password)
+                    .build();
+
+            Member m3 = Member.builder()
+                    .name("user3")
+                    .password(password)
+                    .build();
+
+            members.addAll((List.of(m1, m2, m3)));
+            memberRepository.saveAll(members);
+
             // Category 생성
             List<Category> categoryList = new ArrayList<>();
             Category c1 = Category.builder().name("식비").build();
