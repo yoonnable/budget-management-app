@@ -1,6 +1,6 @@
 package com.budget.management.budget.entity;
 
-import com.budget.management.budget.dto.AddBudgetRequest;
+import com.budget.management.budget.dto.BudgetRequest;
 import com.budget.management.category.entity.Category;
 import com.budget.management.member.entity.Member;
 import jakarta.persistence.*;
@@ -34,7 +34,7 @@ public class Budget {
     private int period;
 
     @Builder
-    public Budget(AddBudgetRequest budgetRequest, Member member, Category category) {
+    public Budget(BudgetRequest budgetRequest, Member member, Category category) {
         this.member = member;
         this.category = category;
         this.money = budgetRequest.getMoney();
