@@ -2,11 +2,14 @@ package com.budget.management.spending.entity;
 
 import com.budget.management.category.entity.Category;
 import com.budget.management.member.entity.Member;
+import com.budget.management.spending.dto.AddSpendingRequest;
+import com.budget.management.spending.dto.UpdateSpendingRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
 
@@ -37,7 +40,25 @@ public class Spending {
     private String memo;
 
     @Column(nullable = false)
-    private char except_flag;
+    @Comment(value = "합계 제외 flag : 제외 = 1, 포함 = 0")
+    private char exceptFlag;
 
+    @Builder
+    public Spending(AddSpendingRequest request, Member member, Category category) {
+        this.member = member;
+        this.category = category;
+        this.date = request.getDate();
+        this.money = request.getMoney();
+        this.memo = request.getMemo();
+        this.exceptFlag = request.getExceptFlag();
+    }
+
+    public void update(UpdateSpendingRequest request, Category category) {
+        this.category = category;
+        this.date = request.getDate();
+        this.money = request.getMoney();
+        this.memo = request.getMemo();
+        this.exceptFlag = request.getExceptFlag();
+    }
 
 }

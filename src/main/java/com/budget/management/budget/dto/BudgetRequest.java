@@ -1,10 +1,12 @@
 package com.budget.management.budget.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class BudgetRequest {
     private Long categoryId;
     private int money;
