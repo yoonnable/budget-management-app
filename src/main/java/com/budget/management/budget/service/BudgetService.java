@@ -7,8 +7,10 @@ import com.budget.management.budget.entity.Budget;
 import com.budget.management.budget.repository.BudgetRepository;
 import com.budget.management.category.entity.Category;
 import com.budget.management.category.repository.CategoryRepository;
+import com.budget.management.category.service.CategoryService;
 import com.budget.management.member.entity.Member;
 import com.budget.management.member.repository.MemberRepository;
+import com.budget.management.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,17 +24,15 @@ import java.util.List;
 public class BudgetService {
 
     private final BudgetRepository budgetRepository;
-    private final MemberRepository memberRepository;
-    private final CategoryRepository categoryRepository;
+    private final MemberService memberService;
+    private final CategoryService categoryService;
 
     // 예산 설정(저장)
     public List<Budget> save(AddBudgetRequest request) {
-        Member member = memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("not found Member: " + request.getMemberId()));
+        Member member = memberService.findById(request.getMemberId());
         List<Budget> budgets = new ArrayList<>();
         for(BudgetRequest budgetRequest : request.getBudgets()) {
-            Category category = categoryRepository.findById(budgetRequest.getCategoryId())
-                    .orElseThrow(() -> new IllegalArgumentException("not found Category: " + budgetRequest.getCategoryId()));
+            Category category = categoryService.findById(budgetRequest.getCategoryId());
             budgets.add(new Budget(budgetRequest, member, category));
         }
         return budgetRepository.saveAll(budgets);
@@ -45,8 +45,7 @@ public class BudgetService {
         if(request.getMemberId() != budget.getId()) {
             throw new Exception("[Error] No match Member: " + request.getMemberId());
         }
-        Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new IllegalArgumentException("not found Category: " + request.getCategoryId()));
+        Category category = categoryService.findById(request.getCategoryId());
         budget.update(category, request.getMoney(), request.getPeriod());
 
         return budget;
