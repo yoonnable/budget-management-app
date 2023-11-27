@@ -1,6 +1,7 @@
 package com.budget.management.spending.controller;
 
 import com.budget.management.spending.dto.AddSpendingRequest;
+import com.budget.management.spending.dto.SpendingDetailResponse;
 import com.budget.management.spending.dto.UpdateSpendingRequest;
 import com.budget.management.spending.entity.Spending;
 import com.budget.management.spending.service.SpendingService;
@@ -28,5 +29,12 @@ public class SpendingController {
     public ResponseEntity<Spending> updateSpending(@PathVariable long id, @RequestBody UpdateSpendingRequest request) throws Exception {
         Spending spending = spendingService.update(id, request);
         return ResponseEntity.ok().body(spending);
+    }
+
+    // 지출 상세 조회
+    @GetMapping("/{id}")
+    public ResponseEntity<SpendingDetailResponse> findSpending(@PathVariable long id) {
+        Spending spending = spendingService.findById(id);
+        return ResponseEntity.ok().body(new SpendingDetailResponse(spending));
     }
 }

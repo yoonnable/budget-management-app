@@ -63,7 +63,7 @@ public class NotProd {
                     .date(LocalDateTime.now())
                     .money(10000)
                     .memo("memo1")
-                    .exceptFlag('0')
+                    .exceptFlag('1') // 합계 제외 내역
                     .build();
             Spending s2 = Spending.builder()
                     .member(m1)

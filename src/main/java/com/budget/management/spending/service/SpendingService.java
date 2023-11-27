@@ -41,4 +41,10 @@ public class SpendingService {
 
         return spending;
     }
+
+    // 지출 상세 조회
+    public Spending findById(long id) {
+        return spendingRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found Spending: " + id));
+    }
 }
