@@ -5,12 +5,16 @@ import com.budget.management.category.service.CategoryService;
 import com.budget.management.member.entity.Member;
 import com.budget.management.member.service.MemberService;
 import com.budget.management.spending.dto.AddSpendingRequest;
+import com.budget.management.spending.dto.FindAllSpendingRequest;
+import com.budget.management.spending.dto.SpendingDetailResponse;
 import com.budget.management.spending.dto.UpdateSpendingRequest;
 import com.budget.management.spending.entity.Spending;
 import com.budget.management.spending.repository.SpendingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +50,29 @@ public class SpendingService {
     public Spending findById(long id) {
         return spendingRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not found Spending: " + id));
+    }
+
+    // 지출 목록 조회
+    public List<SpendingDetailResponse> findAllSpending(String period, FindAllSpendingRequest request) {
+        List<SpendingDetailResponse> spendings = findAllSpendingByFilter(period, request)
+                .stream()
+                .map(SpendingDetailResponse::new)
+                .toList();
+        return spendings;
+    }
+
+    private List<Spending> findAllSpendingByFilter(String period, FindAllSpendingRequest request) {
+        String month = period.substring(2);
+        String endDate = "31";
+        switch (month) {
+            case "04","06","09","11" : endDate = "30";
+            case "02": endDate = "28";
+        }
+        String startDt = period + "01";
+        String endDt = period + endDate;
+        if(request.getCategoryId() == 0) {
+            return spendingRepository.findByBasic(startDt, endDt, request.getMin(), request.getMax());
+        }
+        return spendingRepository.findByCategoryId(startDt,endDt, request.getMin(), request.getMax(), request.getCategoryId());
     }
 }

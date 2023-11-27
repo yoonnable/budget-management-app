@@ -11,7 +11,7 @@ public class SpendingDetailResponse {
     private final String memberName;
     private final String categoryName;
     private final LocalDateTime date;
-    private final int momey;
+    private final int money;
     private final String memo;
     private final String exceptFlag;
 
@@ -20,7 +20,7 @@ public class SpendingDetailResponse {
         this.memberName = spending.getMember().getName();
         this.categoryName = spending.getCategory().getName();
         this.date = spending.getDate();
-        this.momey = spending.getMoney();
+        this.money = spending.getMoney();
         this.memo = spending.getMemo();
         this.exceptFlag = spending.getExceptFlag() == '0'? "합계 포함" : "합계 제외";
     }
