@@ -3,6 +3,7 @@ package com.budget.management.spending.entity;
 import com.budget.management.category.entity.Category;
 import com.budget.management.member.entity.Member;
 import com.budget.management.spending.dto.AddSpendingRequest;
+import com.budget.management.spending.dto.UpdateSpendingRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,5 +53,12 @@ public class Spending {
         this.exceptFlag = request.getExceptFlag();
     }
 
+    public void update(UpdateSpendingRequest request, Category category) {
+        this.category = category;
+        this.date = request.getDate();
+        this.money = request.getMoney();
+        this.memo = request.getMemo();
+        this.exceptFlag = request.getExceptFlag();
+    }
 
 }
