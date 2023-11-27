@@ -80,4 +80,11 @@ public class SpendingController {
         return ResponseEntity.ok().body(spendingResponse);
     }
 
+    // 지출 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Spending> deleteSpending(@PathVariable long id) {
+        spendingService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
 }

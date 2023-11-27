@@ -75,4 +75,9 @@ public class SpendingService {
         }
         return spendingRepository.findByCategoryId(startDt,endDt, request.getMin(), request.getMax(), request.getCategoryId());
     }
+
+    // 지출 삭제
+    public void delete(long id) {
+        spendingRepository.deleteById(id);
+    }
 }
